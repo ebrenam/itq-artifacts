@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="f023778b-550c-4359-a15a-38eb86e80d28" activeEnvironment="Default" name="exercise-02" resourceRoot="" soapui-version="5.9.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="2ae34eef-ce11-415f-8620-bd85a9b6513f" wsaVersion="NONE" name="ReservationBinding" type="wsdl" bindingName="{http://com.gym}ReservationBinding" soapVersion="1_1" anonymous="optional" definition="file:/Users/ebrena/Downloads/opt/soapUI/exercise-02/gymReservation.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/ebrena/Downloads/opt/soapUI/exercise-02/gymReservation.wsdl"><con:part><con:url>file:/Users/ebrena/Downloads/opt/soapUI/exercise-02/gymReservation.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://com.gym" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://com.gym">
+  <wsdl:types>
+    <xs:schema targetNamespace="http://com.gym" elementFormDefault="qualified">
+      <xs:include schemaLocation="gym.xsd"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateReservationMessageRequest">
+    <wsdl:part name="parameter" element="tns:reservation"/>
+  </wsdl:message>
+  <wsdl:message name="CreateReservationMessageResponse">
+    <wsdl:part name="parameter" element="tns:confirmation"/>
+  </wsdl:message>
+  <wsdl:message name="GetReservationMessageRequest">
+    <wsdl:part name="parameter" element="tns:searchCriteria"/>
+  </wsdl:message>
+  <wsdl:message name="GetReservationMessageResponse">
+    <wsdl:part name="parameter" element="tns:confirmations"/>
+  </wsdl:message>
+  <wsdl:message name="CancelReservationMessageRequest">
+    <wsdl:part name="parameter" element="tns:cancelReservation"/>
+  </wsdl:message>
+  <wsdl:message name="CancelReservationMessageResponse">
+    <wsdl:part name="parameter" element="tns:cancelConfirmation"/>
+  </wsdl:message>
+  <wsdl:portType name="ReservationPortType">
+    <wsdl:operation name="createReservationOperation">
+      <wsdl:input message="tns:CreateReservationMessageRequest"/>
+      <wsdl:output message="tns:CreateReservationMessageResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getReservationOperation">
+      <wsdl:input message="tns:GetReservationMessageRequest"/>
+      <wsdl:output message="tns:GetReservationMessageResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="cancelReservationOperation">
+      <wsdl:input message="tns:CancelReservationMessageRequest"/>
+      <wsdl:output message="tns:CancelReservationMessageResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ReservationBinding" type="tns:ReservationPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createReservationOperation">
+      <soap:operation soapAction="createReservation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getReservationOperation">
+      <soap:operation soapAction="getReservation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelReservationOperation">
+      <soap:operation soapAction="cancelReservation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GymReservationService">
+    <wsdl:port name="ReservationPort" binding="tns:ReservationBinding">
+      <soap:address location="http://localhost:8080/ws/gym-reservation"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:/Users/ebrena/Downloads/opt/soapUI/exercise-02/gym.xsd</con:url><con:content><![CDATA[<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://com.gym" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://com.gym">
+  <!--Tipo complejo, conformado de muchos elementos, declarado a nivel raíz del esquema y que puede ser reutilizado en otros elementos.-->
+  <xs:complexType name="reservationType">
+    <!--Elementos pueden ser simples o complejos-->
+    <xs:sequence>
+      <!--El identificador del cliente se define por medio de un patrón basado en una expresión regular: está formado por dos caracteres que indican si se trata de un cliente básico (BC) o de un cliente premium (PC), seguido de un guión y tres dígitos que indican un consecutivo. Por ejemplo: BC-001,
+			PC-238-->
+      <xs:element name="idClient">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(BC|PC)-[0-9]{3}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <!--La actividad que será reservada. Es un string de mínimo 5 caracteres y máximo 255 caracteres sin otra restricción-->
+      <xs:element name="activity">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="5"/>
+            <xs:maxLength value="255"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <!--El día en que la actividad será reservada. Solamente dbe aceptar uno de los 7 valores indicados en la enumeración-->
+      <xs:element name="dayOfWeek">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Lun"/>
+            <xs:enumeration value="Mar"/>
+            <xs:enumeration value="Mie"/>
+            <xs:enumeration value="Jue"/>
+            <xs:enumeration value="Vie"/>
+            <xs:enumeration value="Sab"/>
+            <xs:enumeration value="Dom"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <!--La hora de la actividad reservada no está sujeta a restricciones y se representa como una cadena de caracteres.-->
+      <xs:element name="time" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="confirmationType">
+    <xs:sequence>
+      <xs:element name="idReservation" type="xs:int"></xs:element>
+      <xs:element name="idRoom">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:minInclusive value="1"/>
+            <xs:maxExclusive value="21"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="instructor" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="255"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="discount" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="4"/>
+            <xs:fractionDigits value="2"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="reservation">
+    <xs:annotation>
+      <xs:documentation>Este elemento contiene la estructura de la información relacionada con una reservación.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="reservation" type="tns:reservationType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="searchCriteria">
+    <xs:annotation>
+      <xs:documentation>Este elemento contiene la estructura de la información relacionada con una reservación.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="searchCriteria" type="tns:reservationType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="confirmation">
+    <xs:annotation>
+      <xs:documentation>Este elemento contiene la estructura de la información relacionada con la confirmación de una reservación.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="confirmation" type="tns:confirmationType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="confirmations">
+    <xs:annotation>
+      <xs:documentation>Este elemento contiene un arreglo de la estructuras de una reservación, puesto que funciona como respuesta de una consulta de reservaciones.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="confirmation" type="tns:confirmationType" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cancelReservation">
+    <xs:annotation>
+      <xs:documentation>Este elemento contiene la estructura de la información relacionada con la solicitud de cancelación de una reserva.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="idReservation" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cancelConfirmation">
+    <xs:annotation>
+      <xs:documentation>Este elemento contiene la estructura de la información relacionada con la confirmación dela cancelación de una reservación.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="idReservation" type="xs:int"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/ws/gym-reservation</con:endpoint></con:endpoints><con:operation id="ce8f69f1-1249-4bb1-b183-9a433f080bc6" isOneWay="false" action="cancelReservation" name="cancelReservationOperation" bindingOperationName="cancelReservationOperation" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="bbf183a6-aeec-4eb8-95eb-6e3a38c1ab88" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws/gym-reservation</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://com.gym">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <com:cancelReservation>
+         <com:idReservation>?</com:idReservation>
+      </com:cancelReservation>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="cancelReservation"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="7c67d1cd-8909-42c9-9800-acb8c2835815" isOneWay="false" action="createReservation" name="createReservationOperation" bindingOperationName="createReservationOperation" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="dde4dd9d-959d-441d-a369-edffc5cefa8d" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws/gym-reservation</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://com.gym">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <com:reservation>
+         <com:reservation>
+            <com:idClient>?</com:idClient>
+            <com:activity>?</com:activity>
+            <com:dayOfWeek>?</com:dayOfWeek>
+            <com:time>?</com:time>
+         </com:reservation>
+      </com:reservation>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="createReservation"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="1116e7fc-98f3-4492-9df0-54741f84dd95" isOneWay="false" action="getReservation" name="getReservationOperation" bindingOperationName="getReservationOperation" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="705076d8-93b5-4623-97d2-ec7495b63580" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws/gym-reservation</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://com.gym">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <com:searchCriteria>
+         <com:searchCriteria>
+            <com:idClient>?</com:idClient>
+            <com:activity>?</com:activity>
+            <com:dayOfWeek>?</com:dayOfWeek>
+            <com:time>?</com:time>
+         </com:searchCriteria>
+      </com:searchCriteria>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="getReservation"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

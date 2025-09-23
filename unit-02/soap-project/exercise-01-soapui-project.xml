@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="aa635597-5e2c-447e-ae2c-da65ae26414a" activeEnvironment="Default" name="exercise-01" resourceRoot="" soapui-version="5.9.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="55d66931-d9d0-4c41-b722-1152964fc10e" wsaVersion="NONE" name="ReservationBinding" type="wsdl" bindingName="{http://com.gym}ReservationBinding" soapVersion="1_1" anonymous="optional" definition="file:/Users/ebrena/Downloads/opt/soapUI/exercise-01/gymReservation.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/ebrena/Downloads/opt/soapUI/exercise-01/gymReservation.wsdl"><con:part><con:url>file:/Users/ebrena/Downloads/opt/soapUI/exercise-01/gymReservation.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://com.gym" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://com.gym">
+  <wsdl:types>
+    <xs:schema targetNamespace="http://com.gym" elementFormDefault="qualified">
+      <xs:include schemaLocation="gym.xsd"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateReservationMessageRequest">
+    <wsdl:part name="parameter" element="tns:reservation"/>
+  </wsdl:message>
+  <wsdl:message name="CreateReservationMessageResponse">
+    <wsdl:part name="parameter" element="tns:ack"/>
+  </wsdl:message>
+  <wsdl:message name="GetReservationMessageRequest">
+    <wsdl:part name="parameter" element="tns:reservationCriteria"/>
+  </wsdl:message>
+  <wsdl:message name="GetReservationMessageResponse">
+    <wsdl:part name="parameter" element="tns:reservation"/>
+  </wsdl:message>
+  <wsdl:portType name="ReservationPortType">
+    <wsdl:operation name="CreateReservationOperation">
+      <wsdl:input message="tns:CreateReservationMessageRequest"/>
+      <wsdl:output message="tns:CreateReservationMessageResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetReservationOperation">
+      <wsdl:input message="tns:GetReservationMessageRequest"/>
+      <wsdl:output message="tns:GetReservationMessageResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ReservationBinding" type="tns:ReservationPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CreateReservationOperation">
+      <soap:operation soapAction="createReservation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReservationOperation">
+      <soap:operation soapAction="getReservation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GymReservationService">
+    <wsdl:port name="ReservationPort" binding="tns:ReservationBinding">
+      <soap:address location="http://localhost:8080/ws/gym-reservation"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:/Users/ebrena/Downloads/opt/soapUI/exercise-01/gym.xsd</con:url><con:content><![CDATA[<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://com.gym" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://com.gym">
+  <xs:element name="reservation">
+    <!--Título-->
+    <xs:annotation>
+      <xs:documentation>Este elemento contiene la estructura de la información relacionada con una reservación</xs:documentation>
+    </xs:annotation>
+    <!--Tipo complejo, conformado de muchos elementos-->
+    <xs:complexType>
+      <!--Elementos pueden ser simples o complejos-->
+      <xs:sequence>
+        <!--El identificador del cliente está formado por dos caracteres que indican si se trata de un cliente básico (BC) o
+				de un cliente premium (PC), seguido de un guión fy tres dígitos que indican un consecutivo. Por ejemplo, BC-001,
+				PC-238-->
+        <xs:element name="idClient">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:pattern value="[B|P]-C[0-9](3)"></xs:pattern>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="activity">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:minLength value="5"></xs:minLength>
+              <xs:maxLength value="255"></xs:maxLength>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="dayOfWeek">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Lun"/>
+              <xs:enumeration value="Mar"/>
+              <xs:enumeration value="Mie"/>
+              <xs:enumeration value="Jue"/>
+              <xs:enumeration value="Vie"/>
+              <xs:enumeration value="Sab"/>
+              <xs:enumeration value="Dom"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="time" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="confirmation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="idReservation" type="xs:int"></xs:element>
+        <xs:element name="idRoom">
+          <xs:simpleType>
+            <xs:restriction base="xs:int">
+              <xs:minInclusive value="1"/>
+              <xs:maxExclusive value="21"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="instructor" minOccurs="0">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="255"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="discount" minOccurs="0">
+          <xs:simpleType>
+            <xs:restriction base="xs:decimal">
+              <xs:totalDigits value="2"/>
+              <xs:fractionDigits value="2"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchCriteria">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="idClient">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:pattern value="[B|P]-C[0-9](3)"></xs:pattern>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="activity">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:minLength value="5"></xs:minLength>
+              <xs:maxLength value="255"></xs:maxLength>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="dayOfWeek">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Lun"/>
+              <xs:enumeration value="Mar"/>
+              <xs:enumeration value="Mie"/>
+              <xs:enumeration value="Jue"/>
+              <xs:enumeration value="Vie"/>
+              <xs:enumeration value="Sab"/>
+              <xs:enumeration value="Dom"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="time" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="confirmations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="confirmation" maxOccurs="unbounded" minOccurs="0"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cancelReservation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="idReservation" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cancelConfirmation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="message" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/ws/gym-reservation</con:endpoint></con:endpoints><con:operation id="c67f685f-7ad7-48f5-8473-8e7a9fe7198d" isOneWay="false" action="createReservation" name="CreateReservationOperation" bindingOperationName="CreateReservationOperation" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8fb873c3-b975-47cc-a41e-937f7be2bff8" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws/gym-reservation</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://com.gym">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <com:reservation>
+         <com:idClient>?</com:idClient>
+         <com:activity>?</com:activity>
+         <com:dayOfWeek>?</com:dayOfWeek>
+         <com:time>?</com:time>
+      </com:reservation>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="createReservation"/></con:call></con:operation><con:operation id="37d38402-ecd6-4387-915a-76793f4b9738" isOneWay="false" action="getReservation" name="GetReservationOperation" bindingOperationName="GetReservationOperation" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="dfeebd21-e603-4e51-847a-1adc1b8449be" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws/gym-reservation</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://com.gym">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <com:reservationCriteria/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="getReservation"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

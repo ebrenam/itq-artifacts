@@ -7,7 +7,7 @@
                   targetNamespace="http://com.clinic">
 	<wsdl:types>
 		<xs:schema targetNamespace="http://com.clinic" elementFormDefault="qualified">
-			<xs:include schemaLocation="clinic_team4.xsd"/>
+			<xs:include schemaLocation="clinic.xsd"/>
 		</xs:schema>
 	</wsdl:types>
 
