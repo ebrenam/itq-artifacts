@@ -56,7 +56,7 @@
 
 	<wsdl:service name="SchoolEnrollmentService">
 		<wsdl:port name="EnrollmentPort" binding="tns:EnrollmentBinding">
-			<soap:address location="http://localhost:8080/ws/school-enrollment"/>
+			<soap:address location="http://localhost:127.0.0.1/ws/school-enrollment"/>
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
