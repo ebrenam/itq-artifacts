@@ -56,7 +56,7 @@
 
 	<wsdl:service name="TicketBookingService">
 		<wsdl:port name="TicketBookingPort" binding="tns:TicketBookingBinding">
-			<soap:address location="http://172.20.3.35:8080/ws/ticket-booking"/>
+			<soap:address location="http://10.12.40.43:8080/ws/ticket-booking"/>
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
