@@ -56,7 +56,7 @@
 
 	<wsdl:service name="BookLoanService">
 		<wsdl:port name="BookLoanPort" binding="tns:BookLoanBinding">
-			<soap:address location="http://172.20.6.223:8081/ws/book-loan"/>
+			<soap:address location="http://10.12.40.13:8081/ws/book-loan"/>
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
