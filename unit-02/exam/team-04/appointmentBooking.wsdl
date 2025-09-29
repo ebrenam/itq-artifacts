@@ -56,7 +56,7 @@
 
 	<wsdl:service name="AppointmentBookingService">
 		<wsdl:port name="AppointmentPort" binding="tns:AppointmentBinding">
-			<soap:address location="http://localhost:8080/ws/appointment-booking"/>
+			<soap:address location="http://10.12.40.10:8080/ws/appointmentBooking"/>
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
